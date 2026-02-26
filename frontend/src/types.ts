@@ -65,11 +65,6 @@ export const BEDROCK_MODELS = [
   { id: 'cohere.embed-multilingual-v3', label: 'Cohere Embed Multilingual v3', multimodal: false },
 ];
 
-export function isMultimodalModel(provider: Provider, modelId: string): boolean {
-  const models = provider === 'voyage' ? VOYAGE_MODELS : BEDROCK_MODELS;
-  return models.find(m => m.id === modelId)?.multimodal ?? false;
-}
-
 export type SortColumn = 'time' | 'query' | 'model' | 'tokens' | 'item' | 'similarity';
 export type SortDirection = 'asc' | 'desc';
 

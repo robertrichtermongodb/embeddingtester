@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { ProviderSettings, Provider } from '../types';
-import { VOYAGE_MODELS, BEDROCK_MODELS, isMultimodalModel } from '../types';
 
 interface ParsedCreds {
   accessKeyId?: string;
@@ -37,21 +36,10 @@ interface Props {
 const labelCls = 'block text-xs font-medium text-gray-600 mb-1';
 const inputCls =
   'w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white';
-const selectCls = inputCls;
 
 export function ProviderConfig({ config, onChange, onSave, saveStatus, configLoaded }: Props) {
   const setProvider = (provider: Provider) =>
     onChange({ ...config, provider });
-
-  const isMultimodal = isMultimodalModel(
-    config.provider,
-    config.provider === 'voyage' ? config.voyage.model : config.bedrock.model
-  );
-
-  const providerColor =
-    config.provider === 'voyage'
-      ? 'bg-blue-50 border-blue-200 text-blue-700'
-      : 'bg-orange-50 border-orange-200 text-orange-700';
 
   return (
     <div className="space-y-5">
@@ -82,10 +70,6 @@ export function ProviderConfig({ config, onChange, onSave, saveStatus, configLoa
             AWS Bedrock
           </button>
         </div>
-
-        <div className={`text-xs px-3 py-2 rounded-md border ${providerColor} mb-4`}>
-          {isMultimodal ? 'Multimodal (text + image)' : 'Text only'}
-        </div>
       </div>
 
       {config.provider === 'voyage' && (
@@ -112,26 +96,6 @@ export function ProviderConfig({ config, onChange, onSave, saveStatus, configLoa
             >
               Get API key from voyageai.com
             </a>
-          </div>
-
-          <div>
-            <label className={labelCls}>Model</label>
-            <select
-              value={config.voyage.model}
-              onChange={e =>
-                onChange({
-                  ...config,
-                  voyage: { ...config.voyage, model: e.target.value },
-                })
-              }
-              className={selectCls}
-            >
-              {VOYAGE_MODELS.map(m => (
-                <option key={m.id} value={m.id}>
-                  {m.label} {m.multimodal ? '(multimodal)' : ''}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
       )}
@@ -224,25 +188,6 @@ export function ProviderConfig({ config, onChange, onSave, saveStatus, configLoa
             />
           </div>
 
-          <div>
-            <label className={labelCls}>Model</label>
-            <select
-              value={config.bedrock.model}
-              onChange={e =>
-                onChange({
-                  ...config,
-                  bedrock: { ...config.bedrock, model: e.target.value },
-                })
-              }
-              className={selectCls}
-            >
-              {BEDROCK_MODELS.map(m => (
-                <option key={m.id} value={m.id}>
-                  {m.label} {m.multimodal ? '(multimodal)' : ''}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
       )}
 
