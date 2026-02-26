@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Security credentials
+backend/config/master.key
+backend/config/credentials.enc
+
+# Logs
+logs/
+
+# OS files
+.DS_Store
